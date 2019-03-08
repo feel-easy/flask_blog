@@ -2,7 +2,7 @@
 # 自定义过滤器
 from flask import session, current_app, g
 
-from info.models import User
+from blog.models import User
 
 
 def index_filter(index):
