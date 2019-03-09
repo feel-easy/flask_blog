@@ -10,6 +10,20 @@ class BaseModel(object):
     update_time = db.Column(db.DateTime, default=datetime.now, onupdate=datetime.now)  # 记录的更新时间
 
 
+# 用户收藏表，建立用户与其收藏博客多对多的关系
+tb_user_collection = db.Table(
+    "blog_user_collection",
+    db.Column("user_id", db.Integer, db.ForeignKey("blog_user.id"), primary_key=True),  # 新闻编号
+    db.Column("blogs_id", db.Integer, db.ForeignKey("blog_blogs.id"), primary_key=True),  # 分类编号
+    db.Column("create_time", db.DateTime, default=datetime.now)  # 收藏创建时间
+)
+
+tb_user_follows = db.Table(
+    "blog_user_fans",
+    db.Column('follower_id', db.Integer, db.ForeignKey('blog_user.id'), primary_key=True),  # 粉丝id
+    db.Column('followed_id', db.Integer, db.ForeignKey('blog_user.id'), primary_key=True)  # 被关注人的id
+)
+
 class User(BaseModel, db.Model):
     """用户"""
     __tablename__ = "blog_user"
@@ -27,6 +41,16 @@ class User(BaseModel, db.Model):
             "WOMAN"  # 女
         ),
         default="MAN")
+    # 当前用户收藏的所有博客
+    collection_news = db.relationship("Blogs", secondary=tb_user_collection, lazy="dynamic")  # 用户收藏的博客
+    # 用户所有的粉丝，添加了反向引用followed，代表用户都关注了哪些人
+    followers = db.relationship('User',
+                                secondary=tb_user_follows,
+                                primaryjoin=id == tb_user_follows.c.followed_id,
+                                secondaryjoin=id == tb_user_follows.c.follower_id,
+                                backref=db.backref('followed', lazy='dynamic'),
+                                lazy='dynamic')
+
     blog_list = db.relationship('Blogs', backref='user', lazy='dynamic')
 
     @property
@@ -49,7 +73,7 @@ class User(BaseModel, db.Model):
             "gender": self.gender if self.gender else "MAN",
             "signature": self.signature if self.signature else "",
             "followers_count": self.followers.count(),
-            "blogs_count": self.blogs_list.count()
+            "blogs_count": self.blog_list.count()
         }
         return resp_dict
 
@@ -72,6 +96,7 @@ class Blogs(BaseModel, db.Model):
     source = db.Column(db.String(64), nullable=False)  # 博客来源
     digest = db.Column(db.String(512), nullable=False)  # 博客摘要
     content = db.Column(db.Text, nullable=False)  # 博客内容
+    content_url = db.Column(db.String(64), nullable=False)  # 博客详情页url
     clicks = db.Column(db.Integer, default=0)  # 浏览量
     index_image_url = db.Column(db.String(256))  # 博客列表图片路径
     category_id = db.Column(db.Integer, db.ForeignKey("blog_category.id"))
@@ -115,6 +140,7 @@ class Blogs(BaseModel, db.Model):
             "clicks": self.clicks,
             "category": self.category.to_dict(),
             "index_image_url": self.index_image_url,
+            'content_url':self.content_url,
             "author": self.user.to_dict() if self.user else None
         }
         return resp_dict
@@ -148,7 +174,7 @@ class CommentLike(BaseModel, db.Model):
     """评论点赞"""
     __tablename__ = "blog_comment_like"
     comment_id = db.Column("comment_id", db.Integer, db.ForeignKey("blog_comment.id"), primary_key=True)  # 评论编号
-    user_id = db.Column("user_id", db.Integer, db.ForeignKey("blog_user.id"), primary_key=True)  # 用户编号
+    user_id = db.Column("user_id", db.Integer, db.ForeignKey("blog_blogs.id"), primary_key=True)  # 用户编号
 
 
 class Category(BaseModel, db.Model):

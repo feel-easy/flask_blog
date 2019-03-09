@@ -67,7 +67,7 @@ class Captcha(object):
         return Captcha._instance
 
     def initialize(self, width=200, height=75, color=None, text=None, fonts=None):
-        # self.image = Image.new('RGB', (width, height), (255, 255, 255))
+        # self.images = Image.new('RGB', (width, height), (255, 255, 255))
         self._text = text if text else random.sample(string.ascii_uppercase + string.ascii_uppercase + '3456789', 4)
         self.fonts = fonts if fonts else \
             [os.path.join(self._dir, 'fonts', font) for font in ['Arial.ttf', 'Georgia.ttf', 'actionj.ttf']]
@@ -84,7 +84,7 @@ class Captcha(object):
             return red, green, blue
         return red, green, blue, opacity
 
-    # draw image
+    # draw images
 
     def background(self, image):
         Draw(image).rectangle([(0, 0), image.size], fill=self.random_color(238, 255))
@@ -192,7 +192,7 @@ class Captcha(object):
 
         Args:
             path: save path, default None.
-            fmt: image format, PNG / JPEG.
+            fmt: images format, PNG / JPEG.
         Returns:
             A tuple, (name, text, StringIO.value).
             For example:

@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+
+
+
+    <title>wasalen的博客</title>
+
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/mobi.css">
+    <link rel="stylesheet" href="./css/modal.css">
+    <link rel="stylesheet" href="./css/friendly.css">
+    <link rel="stylesheet" href="./css/blog.css">
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="./js/menu.js"></script>
+    <script src="./js/modal.js"></script>
+    <script src="./js/blog.js"></script>
+    <script src="./dist/vue.min.js"></script>
+    <script src="./js/dist/axios.min.js"></script>
+
+
+    <!-- <script>
+        // baidu statistics
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?fb59b2a6022bccc02671a750f61c356b";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+
+        // baidu auto push
+        (function () {
+            var bp = document.createElement('script');
+            var curProtocol = window.location.protocol.split(':')[0];
+            if (curProtocol === 'https') {
+                bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+            }
+            else {
+                bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+            }
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(bp, s);
+        })();
+
+    </script> -->
+
+
+</head>
+
+<body class="bg-light">
+    <header>
+        <nav class="flex-center bg-white nav-bar">
+            <div class="container-wider flex-middle">
+
+                <a class="nav-bar-logo mr-7" href="/">
+                    <img src="../images/tou.png" alt="blog logo">
+                </a>
+                <ul class="unit-0 hide-on-mobile nav-bar-nav">
+                    <li class="nav-item mr-7">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                    <li class="nav-item mr-7">
+                        <a class="nav-link" href="/tutorials/">教程</a>
+                    </li>
+                    <li class="nav-item mr-7">
+                        <a class="nav-link" href="/categories/">分类</a>
+                    </li>
+                    <li class="nav-item mr-7">
+                        <a class="nav-link" href="/archives/">归档</a>
+                    </li>
+                </ul>
+                <div class="unit flex-right flex-middle">
+                    <form class="hide-on-mobile flex-left flex-middle search-form mr-5" id="search-form"
+                        action="/search/">
+                        <input class="unit" type="search" name="q" placeholder="搜索..." />
+                        <button class="unit-0" type="submit" role="button">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                        </button>
+                    </form>
+                    <a class="show-on-mobile nav-link fs-7 mr-7" id="js-search-btn" href="#" role="button">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                    </a>
+                    <div class="flex-middle notification">
+
+                        <a class="flex-middle nav-link fs-7" href="/notifications/">
+                            <i class="fa fa-bell-o" aria-hidden="true"></i>
+
+                        </a>
+
+                    </div>
+                    <div class="show-on-mobile flex-middle">
+                        <a class="nav-link fs-7 ml-7 mr-5" id="menu-toggle" href="#">
+                            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                        </a>
+                        <ul class="menu bg-white" data-menu data-menu-toggle="#menu-toggle">
+                            <li class="nav-item mr-7">
+                                <a class="nav-link" href="/">首页</a>
+                            </li>
+                            <li>
+                                <a href="/tutorials/">教程</a>
+                            </li>
+                            <li>
+                                <a href="/categories/">分类</a>
+                            </li>
+                            <li>
+                                <a href="/archives/">归档</a>
+                            </li>
+                            <li>
+                                <a href="/donate/">赞助</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <section class="flex-center">
+        <div class="container-wider">
+            <!-- 模态框（Modal） -->
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                &times;
+                            </button>
+                            <h4 class="modal-title" id="myModalLabel">设置评论回复接收邮箱</h4>
+                            <div class="text-primary mt-2">邮箱仅用于接收回复提醒，不会被公开。</div>
+
+                        </div>
+                        <div class="modal-body">
+                            <form class="form email-binding-form" action="/comments/ajax_email_binding/">
+                                <div class="message">
+                                    <span class="text-danger"></span>
+                                </div>
+                                <input type='hidden' name='csrfmiddlewaretoken'
+                                    value='PqhVZcQClVK2NEldiicZQITLK3EKMleapp58NESze1BHlSdd7LV5ouPZE7wnhOxG' />
+                                <div class="flex-left units-gap">
+                                    <label class="unit-0 text-right" for="multiple-inputs-name">邮箱: </label>
+                                    <div class="unit">
+                                        <input type="email" name="email" id="id_email" placeholder="请输入绑定邮箱" />
+                                    </div>
+                                    <div class="unit-0">
+                                        <button class="btn" id="js-send" type="button"
+                                            data-target="/comments/ajax_verification_code/">发送验证码
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="flex-left units-gap">
+                                    <label class="unit-0 text-right" for="multiple-inputs-name">验证码: </label>
+                                    <div class="unit">
+                                        <input type="text" name="verification_code" id="id_verification_code"
+                                            placeholder="请输入接收到的验证码" />
+                                    </div>
+                                </div>
+                                <div class="flex-right">
+                                    <button type="button" class="btn btn-danger mr-3" data-dismiss="modal">关闭</button>
+                                    <button type="submit" class="btn btn-primary" id="js-submit">设置</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div><!-- /.modal.css-content -->
+                </div><!-- /.modal.css -->
+            </div>
+            <div class="flex-left flex-wrap units-gap-big" style="margin-top: 60px">
+
+                <main class="unit-3-4 unit-1-on-mobile top-gap">
+                    <div class="bg-white list-group post-items" id="article">
+                        <div class="list-group-item post-items-header px-7">
+                            <a class="text-muted text-small mr-5" href="#" @click="zuixin">最新</a>
+                            <a class="text-muted text-small" href="#" @click="zuire">热门</a>
+                            <a class="text-muted text-small float-right" href="/all/rss">
+                                <i class="fa fa-rss mr-1" aria-hidden="true"></i>RSS订阅
+                            </a>
+                        </div>
+
+                        <article class="flex-left list-group-item post-item px-7" v-for="item in datalist">
+                            <div class="unit unit-1-on-mobile">
+                                <ul class="list-inline dot-divider post-item-meta">
+                                    <li class="list-inline-item">
+                                        <span
+                                            class="text-muted text-small text-faded">{{ item.author.nick_name }}</span>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <a class="text-small text-faded">{{item.create_time}}</a>
+                                    </li>
+                                </ul>
+                                <h5 class="top-gap-0 post-item-title">
+                                    <a :href="item.id">{{item.title}}</a>
+                                </h5>
+                                <div class="text-small text-muted hide-on-mobile post-item-excerpt mt-2">
+                                    {{item.digest}}
+                                </div>
+                                <div class="post-item-statistic mt-2">
+                                    <a class="text-muted text-small mr-3" role="button">
+                                        <i class="fa fa-eye" aria-hidden="true"></i> {{item.clicks}}
+                                    </a>
+                                    <a class="text-muted text-small mr-3" role="button" href="/post/87/#comment-area">
+                                        <i class="fa fa-comments" aria-hidden="true"></i> {{item.comments_count}}
+                                    </a>
+                                    <a class="text-muted text-small" href="#"><i class="fa fa-folder"
+                                            aria-hidden="true"></i>
+                                        {{item.category.name}}</a>
+
+                                </div>
+                            </div>
+
+                        </article>
+
+                        <div class="flex-center list-group-item">
+                            <aside class="flex-center">
+                                <nav class="pagination list-inline">
+
+
+                                    <a class="current" href="?page=1">1</a>
+
+
+                                    <a href="?page=2">2</a>
+
+                                    <a href="?page=3">3</a>
+
+
+                                    <span>...</span>
+
+
+                                    <a href="?page=9">9</a>
+
+                                </nav>
+                            </aside>
+                        </div>
+                    </div>
+                    <script>
+                        var vm = new Vue({
+                            el: '#article',
+                            data: {
+                                host: 'http://127.0.0.1:5000',
+                                message: '',
+                                datalist: [],
+                            },
+                            mounted: function () {
+                                axios.get(this.host + '/api/')
+                                    .then(response => {
+                                        this.datalist = response.data.data.blogs_click_list
+                                    })
+                                    .catch(error => {
+                                        console.log(error.response.data)
+                                    });
+                            },
+                            methods: {
+                                zuixin: () => {
+                                    console.log('最新')
+                                },
+                                zuire: () => {
+                                    console.log('最热')
+                                },
+
+
+                            }
+                        });
+                    </script>
+                </main>
+
+
+                <aside class="unit-1-4 unit-1-on-mobile">
+
+
+                    <section class="bg-white">
+                        <h6 style="padding-left: 10px">交流学习</h6>
+
+                        <ul class="">
+                            <li>
+                                啦啦啦啦
+                                <ul>
+                                    <li>1111111</li>
+
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <ul class="">
+                            <li>
+                                知乎专栏
+                                <ul>
+                                    <li>
+                                        Django 学习小组
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    </section>
+
+
+                    <section class="bg-white top-gap card">
+
+                        <div class="card-header">
+                            友情链接
+                            <ul>
+
+                                <li><a class="text-muted" target="_blank" href="https://www.paurl.com/">互联网运营</a>
+                                </li>
+
+                                <li><a class="text-muted" target="_blank" href="http://www.dj-china.org">Django中文社区</a>
+                                </li>
+
+                                <li><a class="text-muted" target="_blank" href="https://vim.ink">Vim教程网</a>
+                                </li>
+
+                            </ul>
+                        </div>
+                    </section>
+
+
+                    <section class="bg-white top-gap card">
+                        <div class="card-header">
+                            推广
+                            <div class="flex-left">
+                                <a class="text-small top-gap" href="mailto:wasalen@foxmail.com">联系博主</a>
+                            </div>
+                        </div>
+                    </section>
+                </aside>
+
+            </div>
+        </div>
+    </section>
+    <footer class="bg-white py-5 mt-5 text-small text-muted">
+        <div class="flex-center">
+            <div>&copy; 2018-2019 WASALEN的博客</div>
+        </div>
+        <div class="flex-center">
+            <div><a href="http://www.miitbeian.gov.cn" target="_blank">京ICP备18051172号</a></div>
+        </div>
+    </footer>
+    <script>
+        $('[data-menu]').menu();
+
+        var InterValObj; //timer变量，控制时间
+        var curCount = 120;//当前剩余秒数
+
+        $('#js-send').on('click', function (event) {
+            var $this = $(this);
+            var $targetURL = $this.attr('data-target');
+            $.post(
+                $targetURL,
+                { email: $('#id_email').val() },
+                function (data) {
+                    if (data.ok) {
+                        $this.attr("disabled", "true");
+                        $this.text("重新发送验证码" + "(" + curCount + ")");
+                        InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+                        $('.message')
+                            .find('span')
+                            .text(data.msg)
+                    } else {
+                        $('.message').find('span').text(data.msg)
+                    }
+                }
+            );
+            return false;
+        });
+
+        //timer处理函数
+        function SetRemainTime() {
+            if (curCount === 0) {
+                window.clearInterval(InterValObj);//停止计时器
+                $('#js-send').removeAttr("disabled");//启用按钮
+                $('#js-send').text("重新发送验证码");
+            }
+            else {
+                curCount--;
+                $('#js-send').text("重新发送验证码" + "(" + curCount + ")");
+            }
+        }
+
+        $('#js-submit').on('click', function (event) {
+            var $this = $(this);
+            var $form = $('.email-binding-form');
+            var $targetURL = $form.attr('action');
+            console.log($targetURL);
+
+            $.post(
+                $targetURL,
+                {
+                    email: $('#id_email').val(),
+                    verification_code: $('#id_verification_code').val()
+                },
+                function (data) {
+                    if (data.ok) {
+                        location.reload();
+                    } else {
+                        $('.message')
+                            .find('span')
+                            .text(data.msg)
+                    }
+                }
+            );
+            return false;
+        });
+
+
+        // var editor = new Simditor({
+        //     textarea: $('#id_comment'),
+        //     placeholder: "提出你的见解...",
+        //     toolbarFloat: false,
+        //     cleanPaste: true,
+        //     toolbar: [
+        //         'bold',
+        //         'italic',
+        //         'underline',
+        //         'strikethrough',
+        //         'color',
+        //         'ol',
+        //         'ul',
+        //         'blockquote',
+        //         'code',
+        //         'table',
+        //         'link',
+        //         'image',
+        //         'hr'
+        //     ]
+        // });
+
+    </script>
+
+
+</body>
+
+</html>
