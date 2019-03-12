@@ -468,7 +468,7 @@ def blogs_type():
         categories_dict_list = []
         for category in categories:
             categories_dict_list.append(category.to_dict())
-        categories_dict_list.pop(0)
+        # categories_dict_list.pop(0)
         data = {
             'categories': categories_dict_list
         }

@@ -43,7 +43,7 @@ def create_app(config_name):
     # 后端服务器开启csrf保护,不仅会验证请求方法POST/PUT/DELETE/PATCH/，
     # 还会验证请求头中是否设置了X-CSRFToken
     # csrf_token = 'asdfasdfas'
-    # CSRFProtect(app)
+    CSRFProtect(app)
     CORS(app, supports_credentials=True)
 
     # 生成csrf_token
@@ -81,6 +81,10 @@ def create_app(config_name):
 
     from blog.modules.blogs import blog_blue
     app.register_blueprint(blog_blue)
+    from blog.modules.passport import passport_blue
+    app.register_blueprint(passport_blue)
     from blog.modules.profile import profile_blue
     app.register_blueprint(profile_blue)
+    from blog.modules.admin import admin_blue
+    app.register_blueprint(admin_blue)
     return app
