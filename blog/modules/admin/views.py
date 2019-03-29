@@ -209,7 +209,8 @@ def blogs_review():
     current_page = 1
     total_page = 1
 
-    filters = [Blogs.status != 0]
+    # filters = [Blogs.status != 0]
+    filters = []
     # 如果关键字存在，那么就添加关键字搜索
     if keywords:
         filters.append(Blogs.title.contains(keywords))
@@ -405,12 +406,12 @@ def blogs_edit_detail():
             'categories': category_dict_list
         }
         return render_template('admin/blogs_edit_detail.html', data=data)
-    blogs_id = request.form.get('blogs_id')
-    title = request.form.get('title')
-    digest = request.form.get('digest')
-    content = request.form.get('content')
-    index_image = request.files.get('index_image')
-    category_id = request.form.get('category_id')
+    blogs_id = request.json.get('blogs_id')
+    title = request.json.get('title')
+    digest = request.json.get('digest')
+    content = request.json.get('content')
+    # index_image = request.files.get('index_image')
+    category_id = request.json.get('category_id')
 
     if not all([title, digest, content, category_id]):
         return jsonify(errno=RET.PARAMERR, errmsg='参数缺失')
@@ -421,15 +422,16 @@ def blogs_edit_detail():
         return jsonify(errno=RET.DBERR, errmsg='查询数据错误')
     if not blogs:
         return jsonify(errno=RET.NODATA, errmsg='无博客数据')
-    if index_image:
-        image = index_image.read()
-        try:
-            image_name = ""
-            # TODO img name
-        except Exception as e:
-            current_app.logger.error(e)
-            return jsonify(errno=RET.THIRDERR, errmsg='上传图片失败')
-        blogs.image_url = image_name
+    # if index_image:
+    #     image = index_image.read()
+    #     try:
+    #         image_name = ""
+    #         # TODO img name
+    #     except Exception as e:
+    #         current_app.logger.error(e)
+    #         return jsonify(errno=RET.THIRDERR, errmsg='上传图片失败')
+    #     blogs.image_url = image_name
+    blogs.image_url = '无'
     blogs.title = title
     blogs.digest = digest
     blogs.content = content

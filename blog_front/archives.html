@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+    <title>wasalen的博客</title>
+
+    <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/mobi.css">
+    <link rel="stylesheet" href="./css/modal.css">
+    <link rel="stylesheet" href="./css/friendly.css">
+    <link rel="stylesheet" href="./css/blog.css">
+    <!--<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>-->
+    <!--<script src="./js/menu.js"></script>-->
+    <!--<script src="./js/modal.js"></script>-->
+    <!--<script src="./js/blog.js"></script>-->
+    <script src="./dist/vue.min.js"></script>
+    <script src="./js/dist/axios.min.js"></script>
+
+</head>
+
+<body class="bg-light">
+    <header>
+        <nav class="flex-center bg-white nav-bar">
+            <div class="container-wider flex-middle">
+
+                <!-- <a class="nav-bar-logo mr-7" href="/">
+                <img src="../images/tou.png" alt="blog logo">
+            </a> -->
+                <ul class="unit-0 hide-on-mobile nav-bar-nav">
+                    <li class="nav-item mr-7">
+                        <a class="nav-link" href="/">首页</a>
+                    </li>
+                    <!-- <li class="nav-item mr-7">
+                        <a class="nav-link" href="/tutorials/">教程</a>
+                    </li>
+                    <li class="nav-item mr-7">
+                        <a class="nav-link" href="/categories/">分类</a>
+                    </li>-->
+                    <li class="nav-item mr-7">
+                        <a class="nav-link" href="/archives.html">归档</a>
+                    </li>
+                </ul>
+                <div class="unit flex-right flex-middle">
+                    <!-- <form class="hide-on-mobile flex-left flex-middle search-form mr-5" id="search-form"
+                        action="/search/">
+                        <input class="unit" type="search" name="q" placeholder="搜索..." />
+                        <button class="unit-0" type="submit" role="button">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                        </button>
+                    </form> -->
+                    <a class="show-on-mobile nav-link fs-7 mr-7" id="js-search-btn" href="#" role="button">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                    </a>
+                    <div class="flex-middle notification">
+
+                        <!-- <a class="flex-middle nav-link fs-7" href="/notifications/">
+                            <i class="fa fa-bell-o" aria-hidden="true"></i>
+
+                        </a> -->
+
+                    </div>
+                    <div class="show-on-mobile flex-middle">
+                        <a class="nav-link fs-7 ml-7 mr-5" id="menu-toggle" href="#">
+                            <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
+                        </a>
+                        <ul class="menu bg-white" data-menu data-menu-toggle="#menu-toggle">
+                            <li class="nav-item mr-7">
+                                <a class="nav-link" href="/">首页</a>
+                            </li>
+                            <li>
+                                <a href="/tutorials/">教程</a>
+                            </li>
+                            <li>
+                                <a href="/categories/">分类</a>
+                            </li>
+                            <li>
+                                <a href="/archives/">归档</a>
+                            </li>
+                            <li>
+                                <a href="/donate/">赞助</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <section class="flex-center">
+        <div class="container-wider">
+
+            <div class="flex-left flex-wrap units-gap-big" style="margin-top: 60px">
+
+                <div class="unit-3-4 unit-1-on-mobile top-gap">
+                    <div class="bg-white card px-7 py-5" id="article">
+
+
+                        <ul class="top-gap-0" id='item'>
+                            <li>归档
+                                <ul class="mt-3" v-for='mouthdata in datalist'>
+                                    <li>{{mouthdata.mouth}}
+                                        <ul>
+                                            <li v-for='blog in mouthdata.mouth_data'><a href="#">{{blog.title}}</a></li>
+                                        </ul>
+
+                                    </li>
+
+                                </ul>
+
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+                    <script>
+                        // define the item component
+                        Vue.component('item', {
+                            template: '#item-template',
+                            props: {
+                                model: Object
+                            },
+                            data: function () {
+                                return {
+                                    open: true
+                                }
+                            },
+                            computed: {
+                                isFolder: function () {
+                                    return this.model.children &&
+                                        this.model.children.length
+                                }
+                            },
+                            methods: {
+                                toggle: function () {
+                                    if (this.isFolder) {
+                                        this.open = !this.open
+                                    }
+                                },
+                                changeType: function () {
+                                    if (!this.isFolder) {
+                                        Vue.set(this.model, 'children', [])
+                                        this.addChild()
+                                        this.open = true
+                                    }
+                                },
+                                addChild: function () {
+                                    this.model.children.push({
+                                        name: 'new stuff'
+                                    })
+                                }
+                            }
+                        })
+                        var vm = new Vue({
+                            el: '#item',
+                            data: {
+                                treeData: {},
+                                host: 'http://127.0.0.1:5000',
+                                datalist: [],
+                            },
+
+                            mounted: function () {
+                                axios.get(this.host + '/api/list/archives/')
+                                    .then(response => {
+                                        this.datalist = response.data.data.blogs_dict_list;
+                                    })
+                                    .catch(error => {
+                                        console.log(error.response.data)
+                                    });
+
+
+
+
+                            },
+                            methods: {
+
+                            }
+                        });
+
+
+                    </script>
+                </div>
+
+
+                <aside class="unit-1-4 unit-1-on-mobile">
+
+
+                    <section class="bg-white">
+                        <h6 style="padding-left: 10px">交流学习</h6>
+
+                        <ul class="">
+                            <li>
+                                Python学习交流群
+                                <ul>
+                                    <li>310828874</li>
+
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <ul class="">
+                            <li>
+                                知乎专栏
+                                <ul>
+                                    <li>
+                                        Django 学习小组
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    </section>
+
+
+                    <section class="bg-white top-gap card">
+
+                        <div class="card-header">
+                            友情链接
+                            <ul>
+
+                                <li><a class="text-muted" target="_blank" href="https://www.paurl.com/">互联网运营</a>
+                                </li>
+
+                                <li><a class="text-muted" target="_blank" href="http://www.dj-china.org">Django中文社区</a>
+                                </li>
+
+                                <li><a class="text-muted" target="_blank" href="https://vim.ink">Vim教程网</a>
+                                </li>
+                                <li><a class="text-muted" target="_blank" href="https://www.zmrenwu.com">追梦人的博客</a></li>
+
+                            </ul>
+                        </div>
+                    </section>
+
+
+                    <section class="bg-white top-gap card">
+                        <div class="card-header">
+                            推广
+                            <div class="flex-left">
+                                <a class="text-small top-gap" href="mailto:wasalen@foxmail.com">联系博主</a>
+                            </div>
+                        </div>
+                    </section>
+                </aside>
+
+            </div>
+        </div>
+    </section>
+    <footer class="bg-white py-5 mt-5 text-small text-muted">
+        <div class="flex-center">
+            <div>&copy; 2018-2019 WASALEN的博客</div>
+        </div>
+        <div class="flex-center">
+            <div><a href="http://www.miitbeian.gov.cn" target="_blank">京ICP备18051172号</a></div>
+        </div>
+    </footer>
+</body>
+
+</html>

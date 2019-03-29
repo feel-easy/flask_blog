@@ -662,6 +662,10 @@
   border: 1px solid #f8f9fa;
 }
 
+.list-group .current {
+  background-color: #bfe2e2;
+  color: rgb(0, 0, 0);
+}
 .list-inline {
   padding: 0;
   margin: 0;

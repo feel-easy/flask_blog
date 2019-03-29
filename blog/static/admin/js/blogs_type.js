@@ -67,7 +67,25 @@ $(function(){
             }
         }
 
-        // TODO 发起修改分类请求
+//         发起修改分类请求
+        $.ajax({
+            url:"/admin/blogs_type",
+            type:"post",
+            contentType:"application/json",
+            data:JSON.stringify(params),
+            headers:{
+                'X-CSRFToken':getCookie('csrf_token')
+            },
+            success:function(resp){
+                if (resp.errno == "0"){
+                    alert('修改成功')
+                    window.location.reload()
+                }else{
+                    alert(resp.errmsg)
+                }
+            }
+        })
+
 
     })
 })
