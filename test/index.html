@@ -1,0 +1,412 @@
+<h2 id="python-timedatetime"><a href="https://www.cnblogs.com/tkqasn/p/6001134.html">python time模块和datetime模块详解</a></h2>
+<h3 id="time">一、time模块</h3>
+<p>time模块中时间表现的格式主要有三种：</p>
+<p>a、timestamp时间戳，时间戳表示的是从1970年1月1日00:00:00开始按秒计算的偏移量</p>
+<p>b、struct_time时间元组，共有九个元素组。</p>
+<p>c、format time 格式化时间，已格式化的结构使时间更具可读性。包括自定义格式和固定格式。</p>
+<p><strong>1、时间格式转换图：</strong></p>
+<p><img alt="img" src="https://images2015.cnblogs.com/blog/996085/201610/996085-20161026171443546-488752980.png" /></p>
+<p><strong>2、主要time生成方法和time格式转换方法实例：</strong></p>
+<p><a href="javascript:void(0);"><img alt="复制代码" src="https://common.cnblogs.com/images/copycode.gif" /></a></p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="ch">#! /usr/bin/env python</span>
+<span class="c1"># -*- coding:utf-8 -*-</span>
+<span class="c1"># __author__ = &quot;TKQ&quot;</span>
+
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="c1"># 生成timestamp</span>
+<span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="c1"># 1477471508.05</span>
+<span class="c1">#struct_time to timestamp</span>
+<span class="n">time</span><span class="o">.</span><span class="n">mktime</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">localtime</span><span class="p">())</span>
+<span class="c1">#生成struct_time</span>
+<span class="c1"># timestamp to struct_time 本地时间</span>
+<span class="n">time</span><span class="o">.</span><span class="n">localtime</span><span class="p">()</span>
+<span class="n">time</span><span class="o">.</span><span class="n">localtime</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
+<span class="c1"># time.struct_time(tm_year=2016, tm_mon=10, tm_mday=26, tm_hour=16, tm_min=45, tm_sec=8, tm_wday=2, tm_yday=300, tm_isdst=0)</span>
+
+<span class="c1"># timestamp to struct_time 格林威治时间</span>
+<span class="n">time</span><span class="o">.</span><span class="n">gmtime</span><span class="p">()</span>
+<span class="n">time</span><span class="o">.</span><span class="n">gmtime</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
+<span class="c1"># time.struct_time(tm_year=2016, tm_mon=10, tm_mday=26, tm_hour=8, tm_min=45, tm_sec=8, tm_wday=2, tm_yday=300, tm_isdst=0)</span>
+
+<span class="c1">#format_time to struct_time</span>
+<span class="n">time</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="s1">&#39;2011-05-05 16:37:06&#39;</span><span class="p">,</span> <span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1"> </span><span class="si">%X</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="c1"># time.struct_time(tm_year=2011, tm_mon=5, tm_mday=5, tm_hour=16, tm_min=37, tm_sec=6, tm_wday=3, tm_yday=125, tm_isdst=-1)</span>
+
+<span class="c1">#生成format_time</span>
+<span class="c1">#struct_time to format_time</span>
+<span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> </span><span class="si">%X</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> </span><span class="si">%X</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">time</span><span class="o">.</span><span class="n">localtime</span><span class="p">())</span>
+<span class="c1"># 2016-10-26 16:48:41</span>
+
+
+<span class="c1">#生成固定格式的时间表示格式</span>
+<span class="n">time</span><span class="o">.</span><span class="n">asctime</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">localtime</span><span class="p">())</span>
+<span class="n">time</span><span class="o">.</span><span class="n">ctime</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())</span>
+<span class="c1"># Wed Oct 26 16:45:08 2016</span>
+</pre></div>
+</td></tr></table>
+
+<p><a href="javascript:void(0);"><img alt="复制代码" src="https://common.cnblogs.com/images/copycode.gif" /></a></p>
+<p><strong>struct_time元组元素结构</strong></p>
+<p><a href="javascript:void(0);"><img alt="复制代码" src="https://common.cnblogs.com/images/copycode.gif" /></a></p>
+<div class="codehilite"><pre><span></span>属性                            值
+tm_year（年）                  比如2011 
+tm_mon（月）                   1 - 12
+tm_mday（日）                  1 - 31
+tm_hour（时）                  0 - 23
+tm_min（分）                   0 - 59
+tm_sec（秒）                   0 - 61
+tm_wday（weekday）             0 - 6（0表示周日）
+tm_yday（一年中的第几天）        1 - 366
+tm_isdst（是否是夏令时）        默认为-1
+</pre></div>
+
+
+<p><a href="javascript:void(0);"><img alt="复制代码" src="https://common.cnblogs.com/images/copycode.gif" /></a></p>
+<p><strong>format time结构化表示</strong></p>
+<table>
+<thead>
+<tr>
+<th><strong>格式</strong></th>
+<th><strong>含义</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>%a</td>
+<td>本地（locale）简化星期名称</td>
+</tr>
+<tr>
+<td>%A</td>
+<td>本地完整星期名称</td>
+</tr>
+<tr>
+<td>%b</td>
+<td>本地简化月份名称</td>
+</tr>
+<tr>
+<td>%B</td>
+<td>本地完整月份名称</td>
+</tr>
+<tr>
+<td>%c</td>
+<td>本地相应的日期和时间表示</td>
+</tr>
+<tr>
+<td>%d</td>
+<td>一个月中的第几天（01 - 31）</td>
+</tr>
+<tr>
+<td>%H</td>
+<td>一天中的第几个小时（24小时制，00 - 23）</td>
+</tr>
+<tr>
+<td>%I</td>
+<td>第几个小时（12小时制，01 - 12）</td>
+</tr>
+<tr>
+<td>%j</td>
+<td>一年中的第几天（001 - 366）</td>
+</tr>
+<tr>
+<td>%m</td>
+<td>月份（01 - 12）</td>
+</tr>
+<tr>
+<td>%M</td>
+<td>分钟数（00 - 59）</td>
+</tr>
+<tr>
+<td>%p</td>
+<td>本地am或者pm的相应符</td>
+</tr>
+<tr>
+<td>%S</td>
+<td>秒（01 - 61）</td>
+</tr>
+<tr>
+<td>%U</td>
+<td>一年中的星期数。（00 - 53星期天是一个星期的开始。）第一个星期天之前的所有天数都放在第0周。</td>
+</tr>
+<tr>
+<td>%w</td>
+<td>一个星期中的第几天（0 - 6，0是星期天）</td>
+</tr>
+<tr>
+<td>%W</td>
+<td>和%U基本相同，不同的是%W以星期一为一个星期的开始。</td>
+</tr>
+<tr>
+<td>%x</td>
+<td>本地相应日期</td>
+</tr>
+<tr>
+<td>%X</td>
+<td>本地相应时间</td>
+</tr>
+<tr>
+<td>%y</td>
+<td>去掉世纪的年份（00 - 99）</td>
+</tr>
+<tr>
+<td>%Y</td>
+<td>完整的年份</td>
+</tr>
+<tr>
+<td>%Z</td>
+<td>时区的名字（如果不存在为空字符）</td>
+</tr>
+<tr>
+<td>%%</td>
+<td>‘%’字符</td>
+</tr>
+</tbody>
+</table>
+<p>常见结构化时间组合：</p>
+<div class="codehilite"><pre><span></span>print time.strftime(&quot;%Y-%m-%d %X&quot;)
+#2016-10-26 20:50:13
+</pre></div>
+
+
+<p>3、time加减</p>
+<p><a href="javascript:void(0);"><img alt="复制代码" src="https://common.cnblogs.com/images/copycode.gif" /></a></p>
+<div class="codehilite"><pre><span></span><span class="c1">#timestamp加减单位以秒为单位</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="n">t1</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+<span class="n">t2</span><span class="o">=</span><span class="n">t1</span><span class="o">+</span><span class="mi">10</span>
+
+<span class="k">print</span> <span class="n">time</span><span class="o">.</span><span class="n">ctime</span><span class="p">(</span><span class="n">t1</span><span class="p">)</span><span class="c1">#Wed Oct 26 21:15:30 2016</span>
+<span class="k">print</span> <span class="n">time</span><span class="o">.</span><span class="n">ctime</span><span class="p">(</span><span class="n">t2</span><span class="p">)</span><span class="c1">#Wed Oct 26 21:15:40 2016</span>
+</pre></div>
+
+
+<p><a href="javascript:void(0);"><img alt="复制代码" src="https://common.cnblogs.com/images/copycode.gif" /></a></p>
+<h3 id="datetime">二、datetime模块</h3>
+<p>datatime模块重新封装了time模块，提供更多接口，提供的类有：date,time,datetime,timedelta,tzinfo。</p>
+<p><strong>1、date类</strong></p>
+<p>datetime.date(year, month, day)</p>
+<p>静态方法和字段</p>
+<div class="codehilite"><pre><span></span>date.max、date.min：date对象所能表示的最大、最小日期；
+date.resolution：date对象表示日期的最小单位。这里是天。
+date.today()：返回一个表示当前本地日期的date对象；
+date.fromtimestamp(timestamp)：根据给定的时间戮，返回一个date对象；
+</pre></div>
+
+
+<p><img alt="img" src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" /> output</p>
+<p>方法和属性</p>
+<p><a href="javascript:void(0);"><img alt="复制代码" src="https://common.cnblogs.com/images/copycode.gif" /></a></p>
+<div class="codehilite"><pre><span></span>d1 = date(2011,06,03)#date对象
+d1.year、date.month、date.day：年、月、日；
+d1.replace(year, month, day)：生成一个新的日期对象，用参数指定的年，月，日代替原有对象中的属性。（原有对象仍保持不变）
+d1.timetuple()：返回日期对应的time.struct_time对象；
+d1.weekday()：返回weekday，如果是星期一，返回0；如果是星期2，返回1，以此类推；
+d1.isoweekday()：返回weekday，如果是星期一，返回1；如果是星期2，返回2，以此类推；
+d1.isocalendar()：返回格式如(year，month，day)的元组；
+d1.isoformat()：返回格式如&#39;YYYY-MM-DD’的字符串；
+d1.strftime(fmt)：和time模块format相同。
+</pre></div>
+
+
+<p><a href="javascript:void(0);"><img alt="复制代码" src="https://common.cnblogs.com/images/copycode.gif" /></a></p>
+<p><img alt="img" src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" /> output</p>
+<p><strong>2、time类</strong></p>
+<p>datetime.time(hour[ , minute[ , second[ , microsecond[ , tzinfo] ] ] ] ) </p>
+<p>静态方法和字段</p>
+<div class="codehilite"><pre><span></span>time.min、time.max：time类所能表示的最小、最大时间。其中，time.min = time(0, 0, 0, 0)， time.max = time(23, 59, 59, 999999)；
+time.resolution：时间的最小单位，这里是1微秒；
+</pre></div>
+
+
+<p>方法和属性</p>
+<p><a href="javascript:void(0);"><img alt="复制代码" src="https://common.cnblogs.com/images/copycode.gif" /></a></p>
+<div class="codehilite"><pre><span></span>t1 = datetime.time(10,23,15)#time对象
+t1.hour、t1.minute、t1.second、t1.microsecond：时、分、秒、微秒；
+t1.tzinfo：时区信息；
+t1.replace([ hour[ , minute[ , second[ , microsecond[ , tzinfo] ] ] ] ] )：创建一个新的时间对象，用参数指定的时、分、秒、微秒代替原有对象中的属性（原有对象仍保持不变）；
+t1.isoformat()：返回型如&quot;HH:MM:SS&quot;格式的字符串表示；
+t1.strftime(fmt)：同time模块中的format；
+</pre></div>
+
+
+<p><a href="javascript:void(0);"><img alt="复制代码" src="https://common.cnblogs.com/images/copycode.gif" /></a></p>
+<p><img alt="img" src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" /> output</p>
+<p><strong>3、datetime类</strong></p>
+<p>datetime相当于date和time结合起来。
+datetime.datetime (year, month, day[ , hour[ , minute[ , second[ , microsecond[ , tzinfo] ] ] ] ] )</p>
+<p>静态方法和字段</p>
+<p><a href="javascript:void(0);"><img alt="复制代码" src="https://common.cnblogs.com/images/copycode.gif" /></a></p>
+<div class="codehilite"><pre><span></span>datetime.today()：返回一个表示当前本地时间的datetime对象；
+datetime.now([tz])：返回一个表示当前本地时间的datetime对象，如果提供了参数tz，则获取tz参数所指时区的本地时间；
+datetime.utcnow()：返回一个当前utc时间的datetime对象；#格林威治时间
+datetime.fromtimestamp(timestamp[, tz])：根据时间戮创建一个datetime对象，参数tz指定时区信息；
+datetime.utcfromtimestamp(timestamp)：根据时间戮创建一个datetime对象；
+datetime.combine(date, time)：根据date和time，创建一个datetime对象；
+datetime.strptime(date_string, format)：将格式字符串转换为datetime对象；
+</pre></div>
+
+
+<p><a href="javascript:void(0);"><img alt="复制代码" src="https://common.cnblogs.com/images/copycode.gif" /></a></p>
+<p><img alt="img" src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" /> output</p>
+<p>方法和属性</p>
+<p><a href="javascript:void(0);"><img alt="复制代码" src="https://common.cnblogs.com/images/copycode.gif" /></a></p>
+<div class="codehilite"><pre><span></span>dt=datetime.now()#datetime对象
+dt.year、month、day、hour、minute、second、microsecond、tzinfo：
+dt.date()：获取date对象；
+dt.time()：获取time对象；
+dt. replace ([ year[ , month[ , day[ , hour[ , minute[ , second[ , microsecond[ , tzinfo] ] ] ] ] ] ] ])：
+dt. timetuple ()
+dt. utctimetuple ()
+dt. toordinal ()
+dt. weekday ()
+dt. isocalendar ()
+dt. isoformat ([ sep] )
+dt. ctime ()：返回一个日期时间的C格式字符串，等效于time.ctime(time.mktime(dt.timetuple()))；
+dt. strftime (format)
+</pre></div>
+
+
+<p><a href="javascript:void(0);"><img alt="复制代码" src="https://common.cnblogs.com/images/copycode.gif" /></a></p>
+<p><strong>4.timedelta类，时间加减</strong></p>
+<p>使用timedelta可以很方便的在日期上做天days，小时hour，分钟，秒，毫秒，微妙的时间计算，如果要计算月份则需要另外的办法。</p>
+<p><a href="javascript:void(0);"><img alt="复制代码" src="https://common.cnblogs.com/images/copycode.gif" /></a></p>
+<div class="codehilite"><pre><span></span><span class="c1">#coding:utf-8</span>
+<span class="kn">from</span>  <span class="nn">datetime</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="n">dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+<span class="c1">#日期减一天</span>
+<span class="n">dt1</span> <span class="o">=</span> <span class="n">dt</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span><span class="c1">#昨天</span>
+<span class="n">dt2</span> <span class="o">=</span> <span class="n">dt</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="c1">#昨天</span>
+<span class="n">dt3</span> <span class="o">=</span> <span class="n">dt</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="c1">#明天</span>
+<span class="n">delta_obj</span> <span class="o">=</span> <span class="n">dt3</span><span class="o">-</span><span class="n">dt</span>
+<span class="k">print</span> <span class="nb">type</span><span class="p">(</span><span class="n">delta_obj</span><span class="p">),</span><span class="n">delta_obj</span><span class="c1">#&lt;type &#39;datetime.timedelta&#39;&gt; 1 day, 0:00:00</span>
+<span class="k">print</span> <span class="n">delta_obj</span><span class="o">.</span><span class="n">days</span> <span class="p">,</span><span class="n">delta_obj</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span><span class="c1">#1 86400.0</span>
+</pre></div>
+
+
+<p><a href="javascript:void(0);"><img alt="复制代码" src="https://common.cnblogs.com/images/copycode.gif" /></a></p>
+<p><strong>5、tzinfo时区类</strong></p>
+<p><a href="javascript:void(0);"><img alt="复制代码" src="https://common.cnblogs.com/images/copycode.gif" /></a></p>
+<table class="codehilitetable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41</pre></div></td><td class="code"><div class="codehilite"><pre><span></span><span class="ch">#! /usr/bin/python</span>
+<span class="c1"># coding=utf-8</span>
+
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">tzinfo</span><span class="p">,</span><span class="n">timedelta</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">tzinfo是关于时区信息的类</span>
+<span class="sd">tzinfo是一个抽象类，所以不能直接被实例化</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="k">class</span> <span class="nc">UTC</span><span class="p">(</span><span class="n">tzinfo</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;UTC&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">offset</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_offset</span> <span class="o">=</span> <span class="n">offset</span>
+
+    <span class="k">def</span> <span class="nf">utcoffset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_offset</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">tzname</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;UTC +</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">_offset</span>
+
+    <span class="k">def</span> <span class="nf">dst</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_offset</span><span class="p">)</span>
+
+<span class="c1">#北京时间</span>
+<span class="n">beijing</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">2011</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">tzinfo</span> <span class="o">=</span> <span class="n">UTC</span><span class="p">(</span><span class="mi">8</span><span class="p">))</span>
+<span class="k">print</span> <span class="s2">&quot;beijing time:&quot;</span><span class="p">,</span><span class="n">beijing</span>
+<span class="c1">#曼谷时间</span>
+<span class="n">bangkok</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">(</span><span class="mi">2011</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">tzinfo</span> <span class="o">=</span> <span class="n">UTC</span><span class="p">(</span><span class="mi">7</span><span class="p">))</span>
+<span class="k">print</span> <span class="s2">&quot;bangkok time&quot;</span><span class="p">,</span><span class="n">bangkok</span>
+<span class="c1">#北京时间转成曼谷时间</span>
+<span class="k">print</span> <span class="s2">&quot;beijing-time to bangkok-time:&quot;</span><span class="p">,</span><span class="n">beijing</span><span class="o">.</span><span class="n">astimezone</span><span class="p">(</span><span class="n">UTC</span><span class="p">(</span><span class="mi">7</span><span class="p">))</span>
+
+<span class="c1">#计算时间差时也会考虑时区的问题</span>
+<span class="n">timespan</span> <span class="o">=</span> <span class="n">beijing</span> <span class="o">-</span> <span class="n">bangkok</span>
+<span class="k">print</span> <span class="s2">&quot;时差:&quot;</span><span class="p">,</span><span class="n">timespan</span>
+
+<span class="c1">#Output==================</span>
+<span class="c1"># beijing time: 2011-11-11 00:00:00+08:00</span>
+<span class="c1"># bangkok time 2011-11-11 00:00:00+07:00</span>
+<span class="c1"># beijing-time to bangkok-time: 2011-11-10 23:00:00+07:00</span>
+<span class="c1"># 时差: -1 day, 23:00:00</span>
+</pre></div>
+</td></tr></table>
+
+<p><a href="javascript:void(0);"><img alt="复制代码" src="https://common.cnblogs.com/images/copycode.gif" /></a></p>
