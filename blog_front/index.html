@@ -100,7 +100,7 @@
                         <ul class="menu bg-white" data-menu data-menu-toggle="#menu-toggle">
                             <li class="nav-item mr-7">
                                 <a class="nav-link" href="/">首页</a>
-                            </li>  
+                            </li>
                             <li>
                                 <a href="/archives.html">归档</a>
                             </li>
@@ -152,179 +152,41 @@
                                     <a class="text-muted text-small" href="#"><i class="fa fa-folder"
                                             aria-hidden="true"></i>
                                         {{item.category.name}}</a>
-
                                 </div>
                             </div>
-
                         </article>
-
                         <div class="flex-center list-group-item">
                             <aside class="flex-center">
                                 <nav class="pagination list-inline" v-for='i in pagecount'>
                                     <a href="javascript:void(0)" @click='tothepage(i);'
                                         :class={'current':i==page}>{{i}}</a>
-
-
-                                    <!-- <a class="current" @click='topage(1)'>1</a>
-
-
-                                    <a href="javascript:void(0)" @click='nextpage'>2</a>
-
-                                    <a href="?page=3">3</a>
-
-
-                                    <span>...</span>
-
-
-                                    <a href="?page=9">9</a> -->
-
                                 </nav>
                             </aside>
                         </div>
-                    </div>
-                    <script>
-                        var vm = new Vue({
-                            el: '#article',
-                            data: {
-                                host: 'http://127.0.0.1:5000',
-                                message: '',
-                                datalist: [],
-                                page: 1,
-                                per_page: 5,
-                                pagecount: 0,
-                                cid: 1,
-                                ordertype: 1
-
-                            },
-                            mounted: function () {
-                                this.topage()
-                            },
-                            methods: {
-                                zuixin: function () {
-                                    console.log('最新')
-                                    this.page = 1
-                                    this.ordertype = 1;
-                                    this.topage()
-                                },
-                                zuire: function () {
-                                    console.log('最热')
-                                    this.page = 1
-                                    this.ordertype = 2;
-                                    this.topage()
-                                },
-                                topage: function () {
-                                    // var params= {
-                                    //     cid: this.cid,
-                                    //     ordertype: this.ordertype,
-                                    //     page: this.page,
-                                    //     per_page: this.per_page,
-                                    //     csrf_token: this.getCookie('csrf_token')
-                                    // }
-                                    // axios({
-                                    //     method: 'post',
-                                    //     url: this.host + '/api/list/',
-                                    //     // data: JSON.stringify(params),
-                                    //     data:params,
-                                    //     // contentType: 'application/json',
-                                    //     headers: {
-                                    //         'X-CSRFToken': this.getCookie('csrf_token')
-                                    //     }
-                                    // })
-                                    axios({
-                                        method: 'get',
-                                        url: this.host + '/api/list/',
-                                        params: {
-                                            cid: this.cid,
-                                            ordertype: this.ordertype,
-                                            page: this.page,
-                                            per_page: this.per_page,
-                                        }
-
-                                    })
-                                        .then(response => {
-                                            this.datalist = response.data.data.blogs_dict_list;
-                                            this.pagecount = response.data.data.total_page;
-                                            // this.page = response.data.data.current_page;
-
-                                        })
-                                        .catch(error => {
-                                            console.log(error.response.data)
-                                        });
-                                },
-
-                                nextpage: function () {
-                                    this.page += 1;
-                                    this.topage()
-                                },
-                                lastpage: function () {
-                                    this.page -= 1;
-                                    this.topage()
-                                },
-                                tothepage: function (pageid) {
-                                    this.page = pageid;
-                                    this.topage()
-
-                                },
-                                getCookie: function (name) {
-                                    var r = document.cookie.match("\\b" + name + "=([^;]*)\\b");
-                                    return r ? r[1] : undefined;
-                                }
-
-
-                            }
-                        });
-
-
-                    </script>
+                    </div>                  
                 </main>
-
-
                 <aside class="unit-1-4 unit-1-on-mobile">
-
-
-                    <section class="bg-white">
+                    <section class="bg-white" id='div1'>
                         <h6 style="padding-left: 10px">交流学习</h6>
-
-                        <ul class="">
+                        <ul class="" v-for='data in datalist'>
                             <li>
-                                Python学习交流群
+                                {{data.name}}
                                 <ul>
-                                    <li>310828874</li>
+                                    <li v-for='i in data.content'>{{i.name}}</li>
 
-                                </ul>
-                            </li>
-                        </ul>
-
-                        <ul class="">
-                            <li>
-                                知乎专栏
-                                <ul>
-                                    <li>
-                                        Django 学习小组
-                                    </li>
                                 </ul>
                             </li>
                         </ul>
 
                     </section>
 
-
                     <section class="bg-white top-gap card">
 
-                        <div class="card-header">
-                            友情链接
+                        <div class="card-header" id='div2'>
+                            <h6>友情链接</h6>
                             <ul>
-
-                                <li><a class="text-muted" target="_blank" href="https://www.paurl.com/">互联网运营</a>
+                                <li v-for='data in datalist'><a class="text-muted" target="_blank" :href="data.url" >{{data.name}}</a>
                                 </li>
-
-                                <li><a class="text-muted" target="_blank" href="http://www.dj-china.org">Django中文社区</a>
-                                </li>
-
-                                <li><a class="text-muted" target="_blank" href="https://vim.ink">Vim教程网</a>
-                                </li>
-                                <li><a class="text-muted" target="_blank" href="https://www.zmrenwu.com">追梦人的博客</a></li>
-
                             </ul>
                         </div>
                     </section>
@@ -343,6 +205,7 @@
             </div>
         </div>
     </section>
+   
     <footer class="bg-white py-5 mt-5 text-small text-muted">
         <div class="flex-center">
             <div>&copy; 2018-2019 WASALEN的博客</div>
@@ -352,5 +215,5 @@
         </div>
     </footer>
 </body>
-
+<script src="./js/main.js"></script>
 </html>

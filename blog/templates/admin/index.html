@@ -10,7 +10,7 @@
 </head>
 <body>
 	<div class="header">
-		<a href="#" class="logo fl"><img src="../../static/admin/images/logo.png" alt="logo"></a>
+		<!--<a href="#" class="logo fl"><img src="../../static/admin/images/logo.png" alt="logo"></a>-->
 {#		<a href="#" class="logout fr">退 出</a>#}
 		<a href="javascript:;" onclick="adminlogout()" class="logout fr">退 出</a>
 
@@ -23,22 +23,24 @@
 		</div>
 
 		<div class="menu_con">
-			<div class="first_menu active"><a href="#" class="icon01">用户管理</a></div>
+
+			<div class="first_menu active"><a href="#" class="icon02">博客管理</a></div>
 			<ul class="sub_menu show">
-				<li><a class="icon022" href="/admin/user_count" target="main_frame">用户统计</a></li>
-				<li class="current"><a href="/admin/user_list" class="icon021" target="main_frame">用户列表</a></li>
-			</ul>
-			<div class="first_menu"><a href="#" class="icon02">博客管理</a></div>
-			<ul class="sub_menu">
+				<li><a href="/admin/add_blog" class="icon033" target="main_frame">写博客</a></li>
 				<li><a href="/admin/blogs_review" class="icon031" target="main_frame">博客审核</a></li>
 				<li><a href="/admin/blogs_edit" class="icon032" target="main_frame">博客版式编辑</a></li>
 				<li><a href="/admin/blogs_type" class="icon034" target="main_frame">博客分类管理</a></li>
+			</ul>
+			<div class="first_menu "><a href="#" class="icon01">用户管理</a></div>
+			<ul class="sub_menu ">
+				<li><a class="icon022" href="/admin/user_count" target="main_frame">用户统计</a></li>
+				<li class="current"><a href="/admin/user_list" class="icon021" target="main_frame">用户列表</a></li>
 			</ul>
 		</div>
 	</div>
 
 	<div class="main_body" id="main_body">
-		<iframe src="/admin/user_count" frameborder="0" id="main_frame" name="main_frame" frameborder="0" scrolling="auto"></iframe>
+		<iframe src="/admin/blogs_review" frameborder="0" id="main_frame" name="main_frame" frameborder="0" scrolling="auto"></iframe>
 	</div>
 	
 	<script>

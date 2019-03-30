@@ -12,10 +12,10 @@
 <body>
 	<div class="breadcrub">
 			当前位置：博客管理>博客版式编辑
-		<form class="blogs_filter_form">
-			<input type="text" name="keywords" placeholder="请输入关键字" class="input_txt">
-			<input type="submit" value="搜 索" class="input_sub">
-		</form>
+		<!--<form class="blogs_filter_form">-->
+			<!--<input type="text" name="keywords" placeholder="请输入关键字" class="input_txt">-->
+			<!--<input type="submit" value="搜 索" class="input_sub">-->
+		<!--</form>-->
 	</div>
 		
 
@@ -28,6 +28,7 @@
                 <th width="15%">发布时间</th>
                 <th width="10%">管理操作</th>
                 </tr>
+
                 {% for blogs in data.blogs_list %}
                     <tr>
                         <td>{{ blogs.id }}</td>
@@ -39,6 +40,7 @@
                         </td>
                     </tr>
                 {% endfor %}
+
 			</table>
 		</div>
 		

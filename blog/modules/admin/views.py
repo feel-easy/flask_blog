@@ -333,6 +333,7 @@ def blogs_edit():
     current_page = 1
     total_page = 1
     filters = [Blogs.status != 0]
+    # filters = []
     if keywords:
         filters.append(Blogs.title.contains(keywords))
     try:
@@ -353,7 +354,7 @@ def blogs_edit():
     return render_template('admin/blogs_edit.html', data=data)
 
 
-@admin_blue.route('/blogs_edit_detail', methods=['GET', 'POST'])
+@admin_blue.route('/blogs_edit_detail', methods=['GET', 'PUT'])
 def blogs_edit_detail():
     """
     博客编辑详情
@@ -400,7 +401,7 @@ def blogs_edit_detail():
             if category.id == blogs.category_id:
                 cate_dict['is_selected'] = True
             category_dict_list.append(cate_dict)
-        category_dict_list.pop(0)
+        # category_dict_list.pop(0)
         data = {
             'blogs': blogs.to_dict(),
             'categories': category_dict_list
@@ -436,6 +437,58 @@ def blogs_edit_detail():
     blogs.digest = digest
     blogs.content = content
     blogs.category_id = category_id
+
+    try:
+        db.session.add(blogs)
+        db.session.commit()
+    except Exception as e:
+        current_app.logger.error(e)
+        db.session.rollback()
+        return jsonify(errno=RET.DBERR, errmsg='保存数据失败')
+    return jsonify(errno=RET.OK, errmsg='OK')
+
+
+@admin_blue.route('/add_blog', methods=['GET'])
+def blogs_add_detail():
+    try:
+        categories = Category.query.all()
+    except Exception as e:
+        current_app.logger.error(e)
+        return render_template('admin/blogs_add_detail.html', errmsg='查询分类数据错误')
+    category_dict_list = []
+    # print(categories)
+    # 遍历分类数据，需要判断当前遍历到的分类和博客所属分类一致
+    for category in categories:
+        category_dict_list.append(category.to_dict())
+    data = {
+        # 'blogs': blogs.to_dict(),
+        'categories': category_dict_list
+    }
+    return render_template('admin/blogs_add_detail.html', data=data)
+
+
+@admin_blue.route('/blogs_add_action', methods=['POST'])
+def blogs_add_action():
+    """
+    博客添加详情
+    :return:
+    """
+    title = request.json.get('title')
+    digest = request.json.get('digest')
+    content = request.json.get('content')
+    category_id = request.json.get('category_id')
+    if not all([title, digest, content, category_id]):
+        return jsonify(errno=RET.PARAMERR, errmsg='参数缺失')
+    blogs = Blogs()
+    blogs.image_url = ''
+    blogs.title = title
+    blogs.user_id = 1
+    blogs.source = '个人发布'
+    blogs.digest = digest
+    blogs.content = content
+    blogs.category_id = category_id
+    blogs.status = 1
+    blogs.content_url = '/#'
 
     try:
         db.session.add(blogs)

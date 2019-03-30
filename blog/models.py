@@ -136,9 +136,9 @@ class Blogs(BaseModel, db.Model):
             "digest": self.digest,
             "create_time": self.create_time.strftime("%Y-%m-%d %H:%M:%S"),
             "content": self.content,
-            "comments_count": self.comments.count(),
+            "comments_count": self.comments.count() if self.comments else 0,
             "clicks": self.clicks,
-            "category": self.category.to_dict(),
+            "category": self.category.to_dict() if self.category else {},
             "index_image_url": self.index_image_url,
             'content_url':self.content_url,
             "author": self.user.to_dict() if self.user else None

@@ -87,12 +87,12 @@ def get_blogs_list():
         current_app.logger.error(e)
         return jsonify(errno=RET.PARAMERR, errmsg='参数格式错误')
     # 定义容器，存储查询的过滤条件
-    filters = []
+    filters = [Blogs.status == 0]
     # 判断分类id如果不是最新
     if cid > 1:
         filters.append(Blogs.category_id == cid)
     # 使用过滤条件查询mysql，按照博客发布时间排序
-    print(filters)
+    # print(filters)
     try:
         # *filters表示python中拆包，News.category_id==cid，*filters里面存储的是sqlalchemy对象
         # 在python中测试添加的数据为True或False
@@ -145,7 +145,7 @@ def getBlogsList():
         current_app.logger.error(e)
         return jsonify(errno=RET.PARAMERR, errmsg='参数格式错误')
     # 定义容器，存储查询的过滤条件
-    filters = []
+    filters = [Blogs.status == 0]
     # 判断分类id如果不是最新
     if cid > 1:
         filters.append(Blogs.category_id == cid)
@@ -198,7 +198,7 @@ def getBlogsArchivesList():
     # 转换参数的数据类型
 
     # 定义容器，存储查询的过滤条件
-    filters = []
+    filters = [Blogs.status == 0]
     try:
         # *filters表示python中拆包，News.category_id==cid，*filters里面存储的是sqlalchemy对象
         blogs_list = Blogs.query.filter(*filters).order_by(Blogs.create_time.desc()).all()

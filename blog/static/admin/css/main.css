@@ -390,7 +390,7 @@ body{
     color:#fff;
 }
 
-.review,.edit,.addtype{
+.review,.edit,.addtype,.addblog{
 	display:block;
 	width:40px;
 	line-height:20px;
@@ -401,6 +401,10 @@ body{
 }
 
 .addtype{
+	width:100px;
+	line-height:26px;
+}
+.addblog{
 	width:100px;
 	line-height:26px;
 }
@@ -448,7 +452,7 @@ body{
 
 .form_group .input_area,.form_group .input_multxt{
 	width:86%;
-	height:300px;
+	height:400px;
 	float:left;
 	padding:10px;
 	outline:none;
@@ -460,7 +464,7 @@ body{
 }
 
 .form_group .input_multxt{
-	height:50px;
+	height:150px;
 }
 
 .rich_wrap{

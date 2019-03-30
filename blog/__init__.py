@@ -87,4 +87,7 @@ def create_app(config_name):
     app.register_blueprint(profile_blue)
     from blog.modules.admin import admin_blue
     app.register_blueprint(admin_blue)
+    from blog.modules.api import api_blue
+    app.register_blueprint(api_blue)
     return app
+

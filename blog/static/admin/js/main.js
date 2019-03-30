@@ -312,6 +312,6 @@ function logout(){
 // 管理员退出
 function adminlogout(){
     $.get("/passport/logout",function(resp){
-        window.location.href = '/'
+        window.location.href = '/admin/login'
     })
 }
