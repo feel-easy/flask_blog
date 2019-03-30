@@ -28,6 +28,23 @@ var vm = new Vue({
             this.topage()
         },
         topage: function () {
+            // var params= {
+            //     cid: this.cid,
+            //     ordertype: this.ordertype,
+            //     page: this.page,
+            //     per_page: this.per_page,
+            //     csrf_token: this.getCookie('csrf_token')
+            // }
+            // axios({
+            //     method: 'post',
+            //     url: this.host + '/api/list/',
+            //     // data: JSON.stringify(params),
+            //     data:params,
+            //     // contentType: 'application/json',
+            //     headers: {
+            //         'X-CSRFToken': this.getCookie('csrf_token')
+            //     }
+            // })
             axios({
                 method: 'get',
                 url: this.host + '/api/list/',
@@ -129,32 +146,3 @@ var div2 = new Vue({
     }
 
 });
-
-var item = new Vue({
-    el: '#item',
-    data: {
-        host: 'http://127.0.0.1:5000',
-        datalist: []
-
-    },
-    mounted: function () {
-        axios({
-            method: 'get',
-            url: this.host + '/api/list/archives/',
-            params: {
-
-            }
-
-        }).then(response => {
-            this.datalist = response.data.data.blogs_dict_list;
-
-        }).catch(error => {
-            console.log(error.response.data)
-        });
-    },
-    methods: {
-
-    }
-
-});
-
