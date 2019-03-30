@@ -151,7 +151,7 @@ class Captcha(object):
             offset += int(c_width * squeeze_factor)
         return image
 
-    # draw text
+    # draw test
     @staticmethod
     def warp(image, dx_factor=0.27, dy_factor=0.21):
         width, height = image.size
@@ -194,7 +194,7 @@ class Captcha(object):
             path: save path, default None.
             fmt: images format, PNG / JPEG.
         Returns:
-            A tuple, (name, text, StringIO.value).
+            A tuple, (name, test, StringIO.value).
             For example:
                 ('fXZJN4AFxHGoU5mIlcsdOypa', 'JGW9', '\x89PNG\r\n\x1a\n\x00\x00\x00\r...')
 

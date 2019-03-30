@@ -33,7 +33,7 @@ def generate_image_code():
     1、获取前端生成的uuid
     request.args.get("image_code_id")
     2、判断参数是否存在，如果不存在直接return
-    3、使用工具captcha生成图片验证码,name,text,images
+    3、使用工具captcha生成图片验证码,name,test,images
     4、保存图片验证码的text文本，redis数据库中
     5、返回图片
 
@@ -54,7 +54,7 @@ def generate_image_code():
         return jsonify(errno=RET.DBERR, errmsg='保存数据异常')
     else:
         response = make_response(image)
-        # 修改默认的响应类型，text/html,
+        # 修改默认的响应类型，test/html,
         response.headers['Content-Type'] = 'images/jpg'
         return response
 
